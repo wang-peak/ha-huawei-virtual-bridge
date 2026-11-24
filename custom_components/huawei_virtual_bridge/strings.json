@@ -1,0 +1,253 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add Huawei Virtual Bridge gateway",
+        "description": "Select the IPv4 network interface for Huawei LAN pairing. Enter the 8-digit PIN manually in Huawei Smart Life during pairing.",
+        "data": {
+          "interface_ip": "Pairing network IPv4 address"
+        }
+      }
+    },
+    "abort": {
+      "no_ipv4_interface": "No usable IPv4 network interface was found.",
+      "already_configured": "This gateway is already configured."
+    },
+    "error": {
+      "mac_not_found": "Unable to read the MAC address of the selected network interface."
+    }
+  },
+  "device": {
+    "gateway": {
+      "name": "Smart Home gateway"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "online": {
+        "name": "Online"
+      }
+    },
+    "button": {
+      "reload_children": {
+        "name": "Reload child-device configuration"
+      }
+    },
+    "sensor": {
+      "child_count": {
+        "name": "Child devices",
+        "unit_of_measurement": "items"
+      },
+      "serial": {
+        "name": "Gateway serial number"
+      }
+    }
+  },
+  "exceptions": {
+    "gateway_limit": {
+      "message": "The maximum of {limit} independent gateway instances has been reached."
+    },
+    "mapping_file_unavailable": {
+      "message": "The gateway mapping file is not available."
+    },
+    "mapping_reload_failed": {
+      "message": "The child-device mapping could not be reloaded: {error}"
+    },
+    "unknown_gateway": {
+      "message": "Unknown Huawei Virtual Bridge gateway: {serial}"
+    }
+  },
+  "common": {
+    "gateway_limit_title": "Huawei Virtual Bridge gateway limit reached",
+    "gateway_limit_message": "The maximum of {limit} independent gateway instances has been reached. Remove an existing gateway before adding another.\n\n{error}",
+    "mapping_not_loaded_title": "Huawei Virtual Bridge child-device configuration",
+    "mapping_not_loaded_message": "Child-device configuration for gateway `{serial}` was not loaded:\n\n{error}\n\nFix mapping.yaml and select \"Reload child-device configuration\".",
+    "mapping_not_reloaded_title": "Huawei Virtual Bridge child-device configuration",
+    "mapping_not_reloaded_message": "Child-device configuration for gateway `{serial}` was not reloaded:\n\n{error}\n\nThe previous configuration remains active. Fix mapping.yaml and try again.",
+    "pairing_title": "Huawei Virtual Bridge pairing",
+    "pairing_message": "Gateway: **`{serial}`** is waiting for pairing.\n\n# PIN: {pin}\n\nOpen Huawei Smart Life, select Add gateway, and enter the PIN manually."
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Huawei Virtual Bridge settings",
+        "menu_options": {
+          "interface": "Pairing network interface",
+          "add_child": "Add child device (with entity bindings)",
+          "edit_child": "Edit child device and entities",
+          "delete_child": "Delete child device",
+          "raw_yaml": "Edit mapping.yaml directly",
+          "settings": "Enable or disable the mapping"
+        }
+      },
+      "interface": {
+        "title": "Select pairing network interface",
+        "description": "Changing the interface reloads this gateway entry.",
+        "data": {
+          "interface_ip": "Pairing network IPv4 address"
+        }
+      },
+      "add_child": {
+        "title": "Add child device (1/2): choose a product template",
+        "description": "Pick a product template; the next page pre-fills the Huawei product parameters. Choose \"Custom\" when no template matches: you paste the device Profile JSON first and its parameters and services are detected automatically.\n\nHuawei IoT catalog:\n{catalog_links}\n\nIn the Profile: DeviceId → prod_id, deviceTypeId → device_type, deviceModel → model.",
+        "data": {
+          "template": "Product template"
+        },
+        "data_description": {
+          "template": "9MU7 / 9MXO / 9MY5 are the product models Huawei provides for Home Assistant."
+        }
+      },
+      "profile": {
+        "title": "Add child device (1/2): paste the device Profile",
+        "description": "Paste the whole Huawei device Profile JSON below. After submitting, prod_id, device_type, manufacturer, model, protocol_type and the services are detected and pre-filled on the next page.\n\nOpen the Profile from the product catalog:\n{catalog_links}\n\nSubmit empty to fill everything in manually.\n\n{error}",
+        "data": {
+          "profile": "Device Profile JSON"
+        },
+        "data_description": {
+          "profile": "The whole JSON block (from the opening to the closing brace); formatted or minified both work. Only single-product Profiles are supported, not the full mainHelp.json catalog."
+        }
+      },
+      "add_product": {
+        "title": "Add child device (2/2): product identity and services",
+        "description": "Template parameters are pre-filled; adjust them to match the Huawei Profile. Entities are not selected here: after submitting, pick the HA entities per service on the next step.\n\nParameter source: {profile_link}.\n\n{profile_note}",
+        "data": {
+          "key": "Child-device key (optional)",
+          "prod_id": "Product ID (prod_id)",
+          "sub_prod_id": "Sub-product ID (sub_prod_id)",
+          "device_type": "Device type (device_type)",
+          "manufacturer": "Manufacturer ID (manufacturer)",
+          "model": "Model (model)",
+          "friendly_name": "Display name",
+          "room": "Room",
+          "protocol_type": "Protocol type (protocol_type)",
+          "setup_type": "Pairing type (setup_type)",
+          "known_fields_only": "Report known fields only",
+          "services": "Huawei services to project"
+        },
+        "data_description": {
+          "key": "Leave empty to generate a key such as device_1. It is only used in the local YAML and storage and is never sent to Huawei; prefer ASCII, e.g. living_room_bulb.",
+          "prod_id": "Huawei product ID, matching the Profile file name and DeviceId, e.g. 9MU7.",
+          "sub_prod_id": "Sub-product ID, usually 00. When empty, \"Report known fields only\" must be enabled.",
+          "device_type": "Huawei device type, matching the Profile deviceTypeId, e.g. 119.",
+          "manufacturer": "Manufacturer ID; Huawei devices use 002.",
+          "model": "Device model, matching the Profile deviceModel, e.g. haTest10.",
+          "friendly_name": "Name shown in the Huawei Smart Life app.",
+          "room": "Room name shown in the Huawei Smart Life app; optional.",
+          "protocol_type": "Protocol type: 1 Wi-Fi, 3 Zigbee, 6 Bluetooth Mesh; see the README for the full table.",
+          "setup_type": "Matches setupType in the Profile, usually 0.",
+          "known_fields_only": "Report only the fields known to the Profile; required when sub_prod_id is empty.",
+          "services": "Huawei services to project; the next step selects the HA entities per service. None can be selected: the device is then registered without projecting any service. Sids missing from this integration (e.g. warmSwitch, currentGasConsumption) cannot be projected; omit them."
+        }
+      },
+      "edit_child": {
+        "title": "Edit child device",
+        "description": "Select the child device to edit. Entries show \"display name (key) · room\"; without a display name only the key is shown.\n\nTo add a Chinese name, set the display name and save; it then appears in this list.",
+        "data": {
+          "child": "Child device"
+        },
+        "data_description": {
+          "child": "Outside the parentheses is the display name shown in the Huawei Smart Life app; inside is the key in mapping.yaml. Same names are told apart by room."
+        }
+      },
+      "edit_product": {
+        "title": "Edit child device: {child}",
+        "description": "Only change what needs to change; keeping a selected service preserves its entity bindings and you can re-select the entities on the next step.",
+        "data": {
+          "prod_id": "Product ID (prod_id)",
+          "sub_prod_id": "Sub-product ID (sub_prod_id)",
+          "device_type": "Device type (device_type)",
+          "manufacturer": "Manufacturer ID (manufacturer)",
+          "model": "Model (model)",
+          "friendly_name": "Display name",
+          "room": "Room",
+          "protocol_type": "Protocol type (protocol_type)",
+          "setup_type": "Pairing type (setup_type)",
+          "known_fields_only": "Report known fields only",
+          "services": "Huawei services to project"
+        },
+        "data_description": {
+          "prod_id": "Huawei product ID, matching the Profile file name and DeviceId, e.g. 9MU7.",
+          "sub_prod_id": "Sub-product ID, usually 00. When empty, \"Report known fields only\" must be enabled.",
+          "device_type": "Huawei device type, matching the Profile deviceTypeId, e.g. 119.",
+          "manufacturer": "Manufacturer ID; Huawei devices use 002.",
+          "model": "Device model, matching the Profile deviceModel, e.g. haTest10.",
+          "friendly_name": "Name shown in the Huawei Smart Life app; also shown in the edit/delete lists, so Chinese is recommended.",
+          "room": "Room name shown in the Huawei Smart Life app; optional.",
+          "protocol_type": "Protocol type: 1 Wi-Fi, 3 Zigbee, 6 Bluetooth Mesh; see the README for the full table.",
+          "setup_type": "Matches setupType in the Profile, usually 0.",
+          "known_fields_only": "Report only the fields known to the Profile; required when sub_prod_id is empty.",
+          "services": "Huawei services to project; the next step selects the HA entities per service. None can be selected: the device is then registered without projecting any service. Sids missing from this integration (e.g. warmSwitch, currentGasConsumption) cannot be projected; omit them."
+        }
+      },
+      "service": {
+        "title": "Select entities ({index}/{total}): {label}",
+        "description": "Service {label} ({sid}). Select the HA entities it maps to; services without entities are ignored on save.\n\n{hint}",
+        "data": {
+          "st": "Service type (st)",
+          "entities": "Matching HA entities",
+          "contract": "contract override (optional)",
+          "back": "⬅ Back (check and submit)"
+        },
+        "data_description": {
+          "st": "Service type (st) normally stays unchanged; switch can be changed to binarySwitch as in the Profile. Adapters match sid exactly: st=switch with variant sids such as warmSwitch, heatSwitch or lightSwitch is not supported; omit those.",
+          "entities": "Select the Home Assistant entities of this service; multiple allowed. Without entities the service is ignored on save.",
+          "contract": "Optional. Match the Profile enum values, ranges or field names; when fields are used, the order must match the entity order above. Empty means adapter defaults; per the hint above some services reject or require a contract. YAML or JSON accepted.",
+          "back": "On the first service this returns to the product form; on later services to the previous service. Re-submitting the product form keeps the entities and contracts already entered."
+        }
+      },
+      "delete_child": {
+        "title": "Delete child device",
+        "description": "Select the child device to delete. Entries show \"display name (key) · room\"; double-check before deleting.",
+        "data": {
+          "child": "Child device"
+        }
+      },
+      "delete_confirm": {
+        "title": "Confirm deletion",
+        "description": "Delete child device {child}? On the next reload it is also deleted on the Huawei cloud.",
+        "data": {
+          "confirm": "I confirm and want to delete it"
+        }
+      },
+      "raw_yaml": {
+        "title": "Edit mapping.yaml directly",
+        "description": "The document is validated with the integration rules before saving; a failed validation never overwrites the current file.\n\nFile: {path}",
+        "data": {
+          "yaml": "mapping.yaml"
+        }
+      },
+      "settings": {
+        "title": "Enable or disable the mapping",
+        "description": "Enable or disable the child-device mapping of this gateway. Disabling reloads immediately and removes the registered child devices from the Huawei cloud; enabling registers them again.",
+        "data": {
+          "enabled": "Enable mapping"
+        }
+      }
+    },
+    "error": {
+      "mac_not_found": "Unable to read the MAC address of the selected network interface.",
+      "profile_invalid": "The pasted Profile could not be parsed; make sure the whole single-product Profile JSON was copied.",
+      "invalid_key": "Use 1-64 letters, digits, underscores or hyphens.",
+      "duplicate_key": "This child-device key already exists.",
+      "required": "This field is required.",
+      "sub_prod_id_requires_known_fields": "\"Report known fields only\" must be enabled when sub_prod_id is empty.",
+      "invalid_contract": "contract must be a YAML/JSON mapping.",
+      "contract_bool_key": "YAML parsed on/off/yes/no inside contract as booleans; quote the key or value, e.g. 'on': 1 or 0: 'off'.",
+      "action_commands_required": "action bound to non-cover/valve entities requires explicit commands, e.g. switches 0=off, 1=on; the vacuum 0=start, 1=pause, 2=cancel.",
+      "action_roles_invalid": "contract.commands roles do not fit the selected entity domain; cover uses open/close/stop, switches use on/off, the vacuum uses start/pause/cancel.",
+      "electric_fields_required": "electric requires fields in contract: use the characteristic names of the product Profile verbatim; their order and count must match the selected HA entities exactly.",
+      "electric_fields_entities_mismatch": "electric fields must match the number of bound entities in the same order. To report only some fields, remove the extra fields and keep the remaining order.",
+      "status_cover_default": "A cover state is open/closed, not on/off; adjust states per the Profile, e.g. closed=1, open=2.",
+      "status_mapping_required": "status needs states or fallback; states may be an empty mapping plus a fallback, e.g. states: {} with fallback: 0.",
+      "status_states_invalid": "status states must map HA states to integers, with quoted keys (e.g. 'on': 1) and integer values.",
+      "status_fallback_invalid": "status fallback must be an integer.",
+      "yaml_invalid": "The content is not a valid YAML mapping.",
+      "air_detector_entities_required": "airDetector requires two different sensor entities (one temperature, one humidity).",
+      "gas_sensor_entities_required": "gasSensor needs one current-concentration sensor and optionally one level sensor on a different entity.",
+      "placeholder_unfilled": "The state/mode mapping still contains placeholders; replace the placeholder states with the values the device actually reports."
+    },
+    "abort": {
+      "invalid_gateway": "The gateway serial number is invalid, so mapping.yaml cannot be accessed."
+    }
+  }
+}

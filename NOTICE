@@ -1,0 +1,41 @@
+Huawei Virtual Bridge
+Copyright 2026 duanyudan86
+
+This software is a derivative work of OneConnect Bridge
+(https://github.com/duanyudan86/ha-oneconnect-bridge),
+Copyright 2026 duanyudan86, licensed under the Apache License, Version 2.0.
+
+Upstream behavior:
+  OneConnect Bridge emulates a Huawei OneConnect parent gateway and maps Home
+  Assistant entities into Huawei Smart Life as virtual child devices
+  (Home Assistant -> Huawei).
+
+Behavior of this derivative work:
+  This project keeps the upstream behavior: it emulates a Huawei gateway, maps
+  Home Assistant entities into Huawei Smart Life as virtual child devices, and
+  keeps them in sync (Home Assistant -> Huawei).
+
+Changes made in this derivative work:
+  - Renamed the integration domain from "oneconnect_bridge" to
+    "huawei_virtual_bridge" (manifest.json, const.py, config flow,
+    strings.json, translations, and thread/log identifiers).
+  - Rebranded user-facing text from "OneConnect Bridge" to
+    "Huawei Virtual Bridge".
+  - Added HACS/Marketplace packaging: hacs.json, LICENSE (Apache-2.0, copied
+    from the upstream project), NOTICE, GitHub Actions workflows, English
+    translations (translations/en.json) and this README.
+  - Merged the child-device editor from OneConnect Bridge GUI
+    (https://github.com/wang-peak/ha-oneconnect-bridge-gui) into the
+    integration's options flow (child_ui/ package): product templates, device
+    Profile parsing, per-service HA entity binding, contract editing, raw YAML
+    editing, .bak backups, enable/disable and reload. The editor reads and
+    writes this integration's own mapping.yaml only.
+  - Business logic, the communication stack and default_mapping.yaml are
+    unchanged. The adapter set is extended beyond the upstream one; the
+    services and aliases supported by this project are documented in the
+    README.
+
+Files under custom_components/huawei_virtual_bridge/ are derived from the
+corresponding files in OneConnect Bridge.
+
+A copy of the Apache License, Version 2.0 is provided in the LICENSE file.

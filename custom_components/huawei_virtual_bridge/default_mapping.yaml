@@ -1,0 +1,113 @@
+# 集成默认仅支持华为为 Home Assistant 构建的专属物模型。
+# 自定义物模型请自行查阅相关资料，并在本配置文件中显式配置对应子设备的注册信息；由此产生的不可控因素及法律责任由您自行承担。
+# 默认配置会注册一个智控灯泡；请将下方 HA 实体占位符替换为实际实体。
+# 尊界S800模型示例已注释，如需使用请取消对应注释。
+
+schema: 1
+enabled: true
+gateway_serial: ""
+
+children:
+  # oneconnect_link_probe:
+  #   product:
+  #     prod_id: ZJ0V
+  #     sub_prod_id: ""
+  #     device_type: "347"
+  #     manufacturer: "002"
+  #     model: "MAEXTRO-S800 Grand Design"
+  #     friendly_name: "尊界S800 Grand Design"
+  #     protocol_type: 1
+  #     setup_type: 0
+  #     known_fields_only: true
+  #     services: []
+
+  # 以下子设备都是华为专为Home Assistant构建的专属物模型，只需配置产品ID、设备类型及HA实体映射
+  # 配置其他已支持的 HA 专属物模型时，可复制对应条目并替换实体
+  # 自定义包装信息配置错误可能导致云端拒绝（如 15013），请按对应产品资料填写。
+  # 对于HA实体和华为服务不对等的情况您可以进行自定义覆盖。
+
+  color_bulb_9mu7:
+    product:
+      prod_id: 9MU7
+      device_type: "119"
+      friendly_name: 智控灯泡
+      room: 客厅
+      services:
+        - st: switch
+          sid: switch
+        - st: brightness
+          sid: brightness
+          contract:
+            min: 1
+            max: 100
+            step: 1
+        - st: cct
+          sid: cct
+      bindings:
+        - sid: switch
+          entities: [light.REPLACE_WITH_COLOR_BULB]
+        - sid: brightness
+          entities: [light.REPLACE_WITH_COLOR_BULB]
+        - sid: cct
+          entities: [light.REPLACE_WITH_COLOR_BULB]
+
+  # air_conditioner_9mxo:
+  #   product:
+  #     prod_id: 9MXO
+  #     device_type: "012"
+  #     friendly_name: 智控空调
+  #     room: 客厅
+  #     services:
+  #       - st: switch
+  #         sid: switch
+  #         contract:
+  #           on_mode: cool
+  #       - st: mode
+  #         sid: mode
+  #         contract:
+  #           values:
+  #             cool: 2
+  #             heat: 3
+  #             fan_only: 4
+  #       - st: temperature
+  #         sid: temperature
+  #       - st: fan
+  #         sid: fan
+  #         contract:
+  #           gear_values:
+  #             auto: 0
+  #             low: 1
+  #             medium: 2
+  #             high: 3
+  #           direction_enabled: false
+  #   bindings:
+  #     - sid: switch
+  #       entities: [climate.REPLACE_WITH_AIR_CONDITIONER]
+  #     - sid: mode
+  #       entities: [climate.REPLACE_WITH_AIR_CONDITIONER]
+  #     - sid: temperature
+  #       entities: [climate.REPLACE_WITH_AIR_CONDITIONER]
+  #     - sid: fan
+  #       entities: [climate.REPLACE_WITH_AIR_CONDITIONER]
+
+  # curtain_9my5:
+  #   product:
+  #     prod_id: 9MY5
+  #     device_type: "01C"
+  #     friendly_name: 智控窗帘
+  #     room: 客厅
+  #     services:
+  #       - st: action
+  #         sid: leftAction
+  #         contract:
+  #           commands:
+  #             0: close
+  #             1: open
+  #             2: stop
+  #       - st: opener
+  #         sid: opener
+  #   bindings:
+  #     - sid: leftAction
+  #       entities: [cover.REPLACE_WITH_CURTAIN]
+  #     - sid: opener
+  #       entities: [cover.REPLACE_WITH_CURTAIN]

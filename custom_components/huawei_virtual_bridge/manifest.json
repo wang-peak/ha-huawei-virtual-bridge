@@ -1,0 +1,20 @@
+{
+  "domain": "huawei_virtual_bridge",
+  "name": "Huawei Virtual Bridge",
+  "categories": [
+    "hubs_protocols"
+  ],
+  "codeowners": [
+    "@wang-peak"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/wang-peak/ha-huawei-virtual-bridge",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/wang-peak/ha-huawei-virtual-bridge/issues",
+  "requirements": [
+    "cryptography>=42.0.0",
+    "psutil>=5.9.0"
+  ],
+  "version": "0.0.1"
+}
