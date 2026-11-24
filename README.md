@@ -168,8 +168,9 @@ ha-huawei-virtual-bridge/
 
 ## 依赖
 
-- `cryptography>=42.0.0`
 - `psutil>=5.9.0`
+
+`cryptography` 由 Home Assistant 自身提供，无需在本集成中声明。
 
 依赖会在 HACS / Marketplace 或手动安装集成后由 Home Assistant 自动安装。本集成要求 Home Assistant **2024.12.0** 及以上。
 

@@ -7,6 +7,7 @@ from homeassistant.components import persistent_notification
 from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.translation import async_get_translations
 
 from .business import MappingConfigError, load_enabled_mapping
@@ -15,6 +16,8 @@ from .business.child_cleanup import ChildCleanupClient
 from .gateway import GatewayConfig, GatewayLimitError, GatewayManager, GatewayRuntime
 from .ha_adapter import HAEntityBridge
 from .storage import GatewayStore
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
 
 PLATFORMS: list[str] = ["binary_sensor", "sensor", "button"]
